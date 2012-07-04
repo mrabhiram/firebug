@@ -109,7 +109,7 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
 
         // Create cookie list table.
         this.table = CookieReps.CookieTable.createTable(this.panelNode);
-        this.summaryRow = CookieRequestEntry.summaryTag.insertRows({}, this.table.lastChild.lastChild)[0];
+        this.summaryRow = CookieReps.CookieRow.summaryTag.insertRows({}, this.table.lastChild.lastChild)[0];
 
         // Cookies are displayed only for web pages.
         var location = this.context.window.location;
@@ -461,11 +461,10 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
         logTypes.cookies = 1;
     },
 
-        updateSummaries: function(rightNow, updateAll)
+    updateSummaries: function(rightNow, updateAll)
     {
         if (!this.invalidPhases && !updateAll)
             return;
-
 
         this.invalidPhases = false;
 
@@ -473,7 +472,7 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
         if (!phases.length)
             return;
 
-        var fileCount = 0, totalSize = 0, ;
+        var fileCount = 0, totalSize = 0;
         for (var i = 0; i < phases.length; ++i)
         {
             var phase = phases[i];
@@ -482,7 +481,7 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
             var summary = this.summarizePhase(phase, rightNow);
             fileCount += summary.fileCount;
             totalSize += summary.totalSize;
-                  }
+        }
 
         var row = this.summaryRow;
         if (!row)
@@ -494,8 +493,6 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
         var sizeLabel = row.getElementsByClassName("cookieTotalSizeLabel").item(0); //childNodes[4].firstChild;
         sizeLabel.setAttribute("totalSize", totalSize);
         sizeLabel.firstChild.nodeValue = NetRequestEntry.formatSize(totalSize);
-
-      
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

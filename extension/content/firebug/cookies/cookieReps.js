@@ -120,7 +120,7 @@ CookieReps.CookieRow = domplate(CookieReps.Rep,
             )
         ),
 
- summaryTag:
+    summaryTag:
         TR({"class": "cookieRow cookieSummaryRow focusRow outerFocusRow", "role": "row",
             "aria-live": "polite"},
             TD({"class": "cookieCol"}, "&nbsp;"),
@@ -132,8 +132,6 @@ CookieReps.CookieRow = domplate(CookieReps.Rep,
             TD({"class": "cookieCol cookieDomainCol a11yFocus", "role" : "gridcell"}),
             TD({"class": "cookieTotalSizeCol cookieCol cookieSizeCol a11yFocus", "role": "gridcell"},
                 DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"}, "0KB")
-            ),
-                )
             )
         ),
 
