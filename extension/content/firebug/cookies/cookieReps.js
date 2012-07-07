@@ -125,13 +125,10 @@ CookieReps.CookieRow = domplate(CookieReps.Rep,
             "aria-live": "polite"},
             TD({"class": "cookieCol"}, "&nbsp;"),
             TD({"class": "cookieCol cookieHrefCol a11yFocus", "role" : "rowheader"},
-                DIV({"class": "cookieCountLabel cookieSummaryLabel"}, "-")
+                DIV({"class": "cookieCountLabel cookieSummaryLabel"}, "")
             ),
-            TD({"class": "cookieCol cookieStatusCol a11yFocus", "role" : "gridcell"}),
-            TD({"class": "cookieCol cookieProtocolCol a11yFocus", "role" : "gridcell"}),
-            TD({"class": "cookieCol cookieDomainCol a11yFocus", "role" : "gridcell"}),
             TD({"class": "cookieTotalSizeCol cookieCol cookieSizeCol a11yFocus", "role": "gridcell"},
-                DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"}, "0KB")
+                DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"}, )
             )
         ),
 

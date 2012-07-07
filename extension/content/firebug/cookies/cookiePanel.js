@@ -461,39 +461,38 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
         logTypes.cookies = 1;
     },
 
-    updateSummaries: function(rightNow, updateAll)
+    updateSummaries: function()
     {
-        if (!this.invalidPhases && !updateAll)
-            return;
+ 
+    if (!this.table)
+    return;
 
-        this.invalidPhases = false;
+var totalSize = 0;
 
-        var phases = this.context.cookieProgress.phases;
-        if (!phases.length)
-            return;
+var rows = this.table.getElementsByClassName("cookieRow");
+for (var i=0; i<rows.length; i++)
+{
+    var row = rows[i];
 
-        var fileCount = 0, totalSize = 0;
-        for (var i = 0; i < phases.length; ++i)
-        {
-            var phase = phases[i];
-            phase.invalidPhase = false;
+    var cookie = Firebug.getRepObject(row);
+    if (cookie)
+    {
+        fileCount +=1;
+       totalSize += cookie.size; 
+    }
+       
+}
 
-            var summary = this.summarizePhase(phase, rightNow);
-            fileCount += summary.fileCount;
-            totalSize += summary.totalSize;
-        }
-
-        var row = this.summaryRow;
-        if (!row)
-            return;
-
+        
         var countLabel = row.getElementsByClassName("cookieCountLabel").item(0); //childNodes[1].firstChild;
         countLabel.firstChild.nodeValue = Locale.$STRP("plural.Request_Count2", [fileCount]);
 
         var sizeLabel = row.getElementsByClassName("cookieTotalSizeLabel").item(0); //childNodes[4].firstChild;
         sizeLabel.setAttribute("totalSize", totalSize);
-        sizeLabel.firstChild.nodeValue = NetRequestEntry.formatSize(totalSize);
+        sizeLabel.firstChild.nodeValue = Locale.$STRP("plural.Request_Count2", [totalSize]);
     },
+
+
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
     // Panel Activation
