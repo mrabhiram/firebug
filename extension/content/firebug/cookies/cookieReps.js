@@ -128,7 +128,7 @@ CookieReps.CookieRow = domplate(CookieReps.Rep,
                 DIV({"class": "cookieCountLabel cookieSummaryLabel"}, "")
             ),
             TD({"class": "cookieTotalSizeCol cookieCol cookieSizeCol a11yFocus", "role": "gridcell"},
-                DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"}, )
+                DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"}, "")
             )
         ),
 
