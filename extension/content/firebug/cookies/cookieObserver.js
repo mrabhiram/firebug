@@ -344,6 +344,9 @@ var CookieObserver = Obj.extend(BaseObserver,
         row.repObject = cookie;
 
         //xxxHonza the new cookie should respect current sorting.
+
+        // Update cookie summary
+        panel.updateSummaries();
     },
 
     onUpdateCookie: function(context, cookie)
@@ -391,6 +394,8 @@ var CookieObserver = Obj.extend(BaseObserver,
         }
 
         rowTemplate.updateRow(repCookie, context);
+
+        panel.updateSummaries();
     },
 
     onRemoveCookie: function(context, cookie)
@@ -411,6 +416,8 @@ var CookieObserver = Obj.extend(BaseObserver,
             return;
 
         parent.removeChild(repCookie.row);
+
+        panel.updateSummaries();
     },
 
     logEvent: function(eventObject, context, className)

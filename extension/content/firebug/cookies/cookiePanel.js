@@ -109,7 +109,8 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
 
         // Create cookie list table.
         this.table = CookieReps.CookieTable.createTable(this.panelNode);
-        this.summaryRow = CookieReps.CookieRow.summaryTag.insertRows({}, this.table.lastChild.lastChild)[0];
+        this.summaryRow = CookieReps.CookieRow.summaryTag.insertRows({},
+            this.table.lastChild.lastChild)[0];
 
         // Cookies are displayed only for web pages.
         var location = this.context.window.location;
@@ -198,6 +199,8 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
         var hiddenCols = Options.get(hiddenColsPref);
         if (hiddenCols)
             this.table.setAttribute("hiddenCols", hiddenCols);
+
+        this.updateSummaries();
     },
 
     initializeNode: function(oldPanelNode)
@@ -456,6 +459,7 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
     // Console Panel Listeners
+
     onFilterSet: function(logTypes)
     {
         logTypes.cookies = 1;
@@ -463,36 +467,32 @@ CookiePanel.prototype = Obj.extend(Firebug.ActivablePanel,
 
     updateSummaries: function()
     {
- 
-    if (!this.table)
-    return;
+        if (!this.table)
+            return;
 
-var totalSize = 0;
+        var cookieCount = 0;
+        var totalSize = 0;
 
-var rows = this.table.getElementsByClassName("cookieRow");
-for (var i=0; i<rows.length; i++)
-{
-    var row = rows[i];
+        var rows = this.table.getElementsByClassName("cookieRow");
+        for (var i=0; i<rows.length; i++)
+        {
+            var row = rows[i];
 
-    var cookie = Firebug.getRepObject(row);
-    if (cookie)
-    {
-        fileCount +=1;
-       totalSize += cookie.size; 
-    }
-       
-}
+            var cookie = Firebug.getRepObject(row);
+            if (cookie)
+            {
+                cookieCount += 1;
+                totalSize += cookie.getSize();
+            }
+        }
 
-        
-        var countLabel = row.getElementsByClassName("cookieCountLabel").item(0); //childNodes[1].firstChild;
-        countLabel.firstChild.nodeValue = Locale.$STRP("plural.Request_Count2", [fileCount]);
+        var countLabel = this.table.getElementsByClassName("cookieCountLabel").item(0);
+        countLabel.innerHTML = Locale.$STRP("plural.cookies.count", [cookieCount]);
 
-        var sizeLabel = row.getElementsByClassName("cookieTotalSizeLabel").item(0); //childNodes[4].firstChild;
+        var sizeLabel = this.table.getElementsByClassName("cookieTotalSizeLabel").item(0);
         sizeLabel.setAttribute("totalSize", totalSize);
-        sizeLabel.firstChild.nodeValue = Locale.$STRP("plural.Request_Count2", [totalSize]);
+        sizeLabel.innerHTML = Str.formatSize(totalSize);
     },
-
-
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
     // Panel Activation

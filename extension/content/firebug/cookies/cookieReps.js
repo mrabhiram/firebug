@@ -124,11 +124,16 @@ CookieReps.CookieRow = domplate(CookieReps.Rep,
         TR({"class": "cookieRow cookieSummaryRow focusRow outerFocusRow", "role": "row",
             "aria-live": "polite"},
             TD({"class": "cookieCol"}, "&nbsp;"),
-            TD({"class": "cookieCol cookieHrefCol a11yFocus", "role" : "rowheader"},
-                DIV({"class": "cookieCountLabel cookieSummaryLabel"}, "")
+            TD({"class": "cookieCol cookieHrefCol a11yFocus", colspan: 3, "role" : "rowheader"},
+                DIV({"class": "cookieCountLabel cookieSummaryLabel"})
             ),
-            TD({"class": "cookieTotalSizeCol cookieCol cookieSizeCol a11yFocus", "role": "gridcell"},
-                DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"}, "")
+            TD({"class": "cookieTotalSizeCol cookieCol cookieSizeCol a11yFocus",
+                "role": "gridcell"},
+                DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"})
+            ),
+            TD({"class": "cookieCol",
+                colspan: 5, "role": "gridcell"},
+                DIV({"class": "cookieTotalSizeLabel cookieSummaryLabel"})
             )
         ),
 
@@ -247,7 +252,7 @@ CookieReps.CookieRow = domplate(CookieReps.Rep,
 
     getSize: function(cookie)
     {
-        var size = cookie.cookie.name.length + cookie.cookie.value.length;
+        var size = cookie.getSize();
         return this.formatSize(size);
     },
 
@@ -1086,6 +1091,11 @@ CookieReps.CookieTable = domplate(CookieReps.Rep,
         var values = [];
         for (var row = tbody.childNodes[1]; row; row = row.nextSibling)
         {
+            // Skip helper rows (such as the summary row)
+            var cookie = Firebug.getRepObject(row);
+            if (!cookie)
+                continue;
+
             var cell = row.childNodes[colIndex];
             var value = numerical ? parseFloat(cell.textContent) : cell.textContent;
 
@@ -1140,6 +1150,10 @@ CookieReps.CookieTable = domplate(CookieReps.Rep,
         // Remember last sorted column & direction in preferences.
         var prefValue = header.getAttribute("id") + " " + (header.sorted > 0 ? "desc" : "asc");
         Options.set(lastSortedColumn, prefValue);
+
+        // Make sure the summary row is again at the end.
+        var summaryRow = tbody.getElementsByClassName("cookieSummaryRow").item(0);
+        tbody.appendChild(summaryRow);
     },
 
     supportsObject: function(object)

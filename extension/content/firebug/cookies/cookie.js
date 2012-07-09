@@ -137,6 +137,11 @@ Cookie.prototype =
         }
 
         return null;
+    },
+
+    getSize: function()
+    {
+        return this.cookie.name.length + this.cookie.value.length;
     }
 };
 
